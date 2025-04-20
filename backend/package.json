@@ -1,0 +1,37 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Leetcode clone project",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mohanvasu/Leetcode-Clone.git"
+  },
+  "keywords": [
+    "Javascript",
+    "HTML",
+    "CSS",
+    "React",
+    "Tailwind",
+    "Prisma",
+    "Judge",
+    "0"
+  ],
+  "author": "Mohan Prajapati",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mohanvasu/Leetcode-Clone/issues"
+  },
+  "homepage": "https://github.com/Mohanvasu/Leetcode-Clone#readme",
+  "dependencies": {
+    "@prisma/client": "^6.6.0",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "nodemon": "^3.1.9",
+    "prisma": "^6.6.0"
+  },
+  "type": "module"
+}
