@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import db from "../libs/db.js";
 import {UserRole} from "../generated/prisma/index.js"
 import jwt from "jsonwebtoken"
+import { validationResult } from "express-validator";
 
 
 
@@ -61,7 +62,14 @@ const register = async (req, res) => {
 }
 
 const login = async (req, res) => {
-    const {email,password} = req.body;
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+         return res.status(422).json({
+            success : false,
+            errors : errors.array()
+        })
+    }
+    const {email,password} = req.body; 
     try {
         const user = await db.user.findUnique({
             where : {
@@ -69,7 +77,7 @@ const login = async (req, res) => {
             }
         })
         if(!user){
-            res.status(404).json({
+            return res.status(404).json({
                 success : false,
                 message : "User not found"
             })
@@ -77,7 +85,7 @@ const login = async (req, res) => {
         const isMatch = await bcrypt.compare(password,user.password);
 
         if(!isMatch){
-            res.status(401).json({
+            return res.status(401).json({
                 success : false,
                 message : "Invalid credentials"
             })
@@ -98,7 +106,7 @@ const login = async (req, res) => {
         })
     } catch (error) {
         console.log("Error occurred while login",error);
-        res.status(500).json({
+        return res.status(500).json({
             success : false,
             message : "Error occurred while login"
         });
