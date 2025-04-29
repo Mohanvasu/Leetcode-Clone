@@ -114,7 +114,22 @@ const login = async (req, res) => {
 }
 
 const logout = async (req, res) => {
-    
+    try {
+        res.clearCookie("jwt",{
+            sameSite : "strict",
+            secure : process.env.NODE_ENV !== "development"
+        })
+        res.status(204).json({
+            success : true,
+            message : "User logged out successfully"
+        });
+    } catch (error) {
+        logger.error("Error occurred while logout",error);
+        return res.status(500).json({
+            success : false,
+            message : "Error occurred while logout"
+        });
+    }
 }
 
 const check = async(req, res) => {
