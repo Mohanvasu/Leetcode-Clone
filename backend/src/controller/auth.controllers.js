@@ -133,7 +133,16 @@ const logout = async (req, res) => {
 }
 
 const check = async(req, res) => {
-    
+    console.log(req.user);
+    try {
+        res.status(200).json({
+            success : true,
+            message : "User authenticated successfully",
+            user : req.user
+        });
+    } catch (error) {
+        
+    }
 }
 
 export { register, login, logout, check };
