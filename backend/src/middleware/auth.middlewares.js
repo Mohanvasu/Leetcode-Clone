@@ -58,4 +58,33 @@ const authMiddleware = async(req,res,next)=>{
     }
 }
 
-export {validateLogin,authMiddleware};
+const checkAdmin = async(req,res,next)=>{
+    try{
+        const userId = req.user.id;
+        const user = await db.user.findUnique({
+            where : {
+                id : userId
+            },
+            select : {
+                role : true
+            }
+        });
+
+        if(!user || user.role !== "ADMIN"){
+            return res.status(403).json({
+                success : false,
+                message : "You are not authorized to perform this action"
+            })
+        }else{
+            next();
+        }
+    }catch(error){
+        console.log("Error authenticating user :{}",error);
+        return res.status(500).json({
+            success : false,
+            message : "Error authenticating user"
+        })
+    }
+}
+
+export {validateLogin,authMiddleware,checkAdmin};
